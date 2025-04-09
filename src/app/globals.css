@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+
+
+
+.box{
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.2);
+
+}
+.primary{
+    background-color: #a77519;
+}
+.text-primary{
+    color: #a77519;
+}
+.side{
+    border-right: 2px solid rgba(193, 193, 193, 1)
+}
+.height{
+    height: calc(100vh - 105px);
+}
