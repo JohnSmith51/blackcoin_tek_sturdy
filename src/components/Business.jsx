@@ -1,9 +1,11 @@
 'use client'
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FaTimes, FaImage } from "react-icons/fa";
 
 const Business = () => {
     const [isEditing, setIsEditing] = useState(false);
+    const textareaRef = useRef(null); // Ref for the textarea
+
     const [businessDetails, setBusinessDetails] = useState({
         description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book.`,
         businessName: "Kevin Robinson",
@@ -17,6 +19,13 @@ const Business = () => {
         "/asset/images/user.png",
         "/asset/images/user.png",
     ]);
+
+    // Focus the textarea when editing is turned on
+    useEffect(() => {
+        if (isEditing && textareaRef.current) {
+            textareaRef.current.focus();
+        }
+    }, [isEditing]);
 
     // Toggle edit mode
     const toggleEdit = () => {
@@ -47,6 +56,7 @@ const Business = () => {
             <div>
                 <h1 className="text-3xl text-primary font-extrabold">MY BUSINESS</h1>
             </div>
+
             <div className="flex pt-4 justify-between items-center">
                 <h1 className="text-2xl font-extrabold">CAR REPAIR</h1>
                 <button
@@ -58,7 +68,8 @@ const Business = () => {
             </div>
 
             <textarea
-                className="text-black w-[900px] outline-none border-2 mt-4 border-gray-300 rounded-xl p-4 "
+                ref={textareaRef}
+                className="text-black w-[900px] outline-none border-2 mt-4 border-gray-300 rounded-xl p-4"
                 rows="10"
                 disabled={!isEditing}
                 name="description"
@@ -95,31 +106,31 @@ const Business = () => {
                 value={businessDetails.address}
                 onChange={handleChange}
             />
-        <div className="flex  pt-10   gap-8">
-        {isEditing && (
-                <label className="w-[236px] h-[164px]  flex items-center justify-center border-2 border-[#a67419] bg-white border-dashed rounded-2xl cursor-pointer">
-                    <input type="file" className="hidden" onChange={handleImageUpload} />
-                    <FaImage className="w-40 h-40 text-primary " />
-                </label>
-            )}
-            <div className="flex gap-10 flex-wrap items-center">
-                {images.map((image, index) => (
-                    <div key={index} className="relative w-[236px] rounded-2xl overflow-hidden">
-                        <img className="w-full object-cover" src={image} alt="business" />
-                        {isEditing && (
-                            <button
-                                onClick={() => removeImage(index)}
-                                className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full"
-                            >
-                                <FaTimes />
-                            </button>
-                        )}
-                    </div>
-                ))}
 
+            <div className="flex pt-10 gap-8">
+                {isEditing && (
+                    <label className="w-[236px] h-[164px] flex items-center justify-center border-2 border-[#a67419] bg-white border-dashed rounded-2xl cursor-pointer">
+                        <input type="file" className="hidden" onChange={handleImageUpload} />
+                        <FaImage className="w-40 h-40 text-primary" />
+                    </label>
+                )}
 
+                <div className="flex gap-10 flex-wrap items-center">
+                    {images.map((image, index) => (
+                        <div key={index} className="relative w-[236px] rounded-2xl overflow-hidden">
+                            <img className="w-full object-cover" src={image} alt="business" />
+                            {isEditing && (
+                                <button
+                                    onClick={() => removeImage(index)}
+                                    className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full"
+                                >
+                                    <FaTimes />
+                                </button>
+                            )}
+                        </div>
+                    ))}
+                </div>
             </div>
-        </div>
         </div>
     );
 };
